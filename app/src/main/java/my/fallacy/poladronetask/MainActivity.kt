@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewFinder: TextureView
     private lateinit var ibSwap: ImageButton
     private lateinit var ibCapture: ImageButton
+    private lateinit var ibBack: ImageButton
     // This is an arbitrary number we are using to keep tab of the permission
 // request. Where an app has multiple context for requesting permission,
 // this can help differentiate the different contexts
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         viewFinder = findViewById(R.id.view_finder)
         ibSwap = findViewById(R.id.ibSwap)
         ibCapture = findViewById(R.id.ibCapture)
+        ibBack = findViewById(R.id.ibBack)
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -68,6 +70,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         ibCapture.setOnClickListener { Snackbar.make(ibSwap, "Captured", Snackbar.LENGTH_SHORT).show() }
+
+        ibBack.setOnClickListener { Snackbar.make(ibSwap, "Back", Snackbar.LENGTH_SHORT).show() }
     }
 
 

@@ -32,25 +32,10 @@
         android:layout_toStartOf="@id/ibCapture"
         android:layout_alignParentBottom="true"/>
 
-    <RelativeLayout
-        android:id="@+id/topNavBar"
-        android:layout_width="70dp"
+    <include
+        layout="@layout/view_topbar"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true">
-
-        <ImageButton
-            android:id="@+id/ibBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:rotation="90"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_back"/>
-
-
-
-
-    </RelativeLayout>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
