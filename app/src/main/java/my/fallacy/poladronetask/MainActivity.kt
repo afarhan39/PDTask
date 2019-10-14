@@ -11,6 +11,7 @@ import android.view.Surface
 import android.view.TextureView
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.AspectRatio
@@ -24,7 +25,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewFinder: TextureView
+
+    private lateinit var layoutContainer: RelativeLayout
     private lateinit var ibMap: ImageButton
     private lateinit var ibCapture: ImageButton
     private lateinit var ibBack: ImageButton
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         // This is an array of all the permission specified in the manifest
         private val REQUIRED_PERMISSIONS =
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION)
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,83 +48,27 @@ class MainActivity : AppCompatActivity() {
 
         // Add this at the end of onCreate function
 
-        viewFinder = findViewById(R.id.view_finder)
+        layoutContainer = findViewById(R.id.layoutContainer)
         ibMap = findViewById(R.id.ibMap)
         ibCapture = findViewById(R.id.ibCapture)
         ibBack = findViewById(R.id.ibBack)
 
-        // Request camera permissions
+        // Request loc permissions
         if (allPermissionsGranted()) {
-            viewFinder.post { startCamera() }
+            //do nothing
+
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
 
-        // Every time the provided texture view changes, recompute layout
-        viewFinder.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-            updateTransform()
-        }
-
         ibMap.setOnClickListener {
             startActivity(Intent(this, MapsActivity::class.java))
         }
 
-        ibCapture.setOnClickListener { Snackbar.make(viewFinder, "Captured", Snackbar.LENGTH_SHORT).show() }
-
-        ibBack.setOnClickListener { Snackbar.make(viewFinder, "Back", Snackbar.LENGTH_SHORT).show() }
-    }
-
-
-    private fun startCamera() {
-        // Create configuration object for the viewfinder use case
-        val previewConfig = PreviewConfig.Builder().apply {
-            setTargetAspectRatio(AspectRatio.RATIO_16_9)
-        }.build()
-
-        // Build the viewfinder use case
-        val preview = Preview(previewConfig)
-
-        // Every time the viewfinder is updated, recompute layout
-        preview.setOnPreviewOutputUpdateListener {
-
-            // To update the SurfaceTexture, we have to remove it and re-add it
-            val parent = viewFinder.parent as ViewGroup
-            parent.removeView(viewFinder)
-            parent.addView(viewFinder, 0)
-
-            viewFinder.surfaceTexture = it.surfaceTexture
-            updateTransform()
-        }
-
-
-        // Bind use cases to lifecycle
-        // If Android Studio complains about "this" being not a LifecycleOwner
-        // try rebuilding the project or updating the appcompat dependency to
-        // version 1.1.0 or higher.
-        CameraX.bindToLifecycle(this, preview)
-    }
-
-    private fun updateTransform() {
-        val matrix = Matrix()
-
-        // Compute the center of the view finder
-        val centerX = viewFinder.width / 2f
-        val centerY = viewFinder.height / 2f
-
-        // Correct preview output to account for display rotation
-        val rotationDegrees = when (viewFinder.display.rotation) {
-            Surface.ROTATION_0 -> 0
-            Surface.ROTATION_90 -> 90
-            Surface.ROTATION_180 -> 180
-            Surface.ROTATION_270 -> 270
-            else -> return
-        }
-        matrix.postRotate(-rotationDegrees.toFloat(), centerX, centerY)
-
-        // Finally, apply transformations to our TextureView
-        viewFinder.setTransform(matrix)
+        ibCapture.setOnClickListener { Snackbar.make(layoutContainer, "Captured", Snackbar.LENGTH_SHORT).show() }
+        ibBack.setOnClickListener { Snackbar.make(layoutContainer, "Back", Snackbar.LENGTH_SHORT).show() }
     }
 
     /**
@@ -134,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                viewFinder.post { startCamera() }
+                //do nothing
             } else {
                 Toast.makeText(
                     this,
