@@ -23,12 +23,12 @@
         android:layout_centerVertical="true"/>
 
     <ImageButton
-        android:id="@+id/ibSwap"
+        android:id="@+id/ibMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_swap"
+        app:srcCompat="@drawable/ic_map"
         android:rotation="90"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"/>

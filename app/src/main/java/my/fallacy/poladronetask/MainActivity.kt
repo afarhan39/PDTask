@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.Surface
 import android.view.TextureView
 import android.view.ViewGroup
@@ -26,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewFinder: TextureView
-    private lateinit var ibSwap: ImageButton
+    private lateinit var ibMap: ImageButton
     private lateinit var ibCapture: ImageButton
     private lateinit var ibBack: ImageButton
     // This is an arbitrary number we are using to keep tab of the permission
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         // Add this at the end of onCreate function
 
         viewFinder = findViewById(R.id.view_finder)
-        ibSwap = findViewById(R.id.ibSwap)
+        ibMap = findViewById(R.id.ibMap)
         ibCapture = findViewById(R.id.ibCapture)
         ibBack = findViewById(R.id.ibBack)
 
@@ -66,13 +65,13 @@ class MainActivity : AppCompatActivity() {
             updateTransform()
         }
 
-        ibSwap.setOnClickListener {
+        ibMap.setOnClickListener {
             startActivity(Intent(this, MapsActivity::class.java))
         }
 
-        ibCapture.setOnClickListener { Snackbar.make(ibSwap, "Captured", Snackbar.LENGTH_SHORT).show() }
+        ibCapture.setOnClickListener { Snackbar.make(viewFinder, "Captured", Snackbar.LENGTH_SHORT).show() }
 
-        ibBack.setOnClickListener { Snackbar.make(ibSwap, "Back", Snackbar.LENGTH_SHORT).show() }
+        ibBack.setOnClickListener { Snackbar.make(viewFinder, "Back", Snackbar.LENGTH_SHORT).show() }
     }
 
 

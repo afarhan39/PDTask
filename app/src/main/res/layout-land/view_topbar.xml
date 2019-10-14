@@ -16,11 +16,54 @@
         app:srcCompat="@drawable/ic_back" />
 
     <TextView
-        android:id="@+id/tvFlightStatus"
+        android:id="@+id/tvSystemStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:text="In Flight"
         android:layout_toEndOf="@id/ibBack"/>
+
+    <ImageButton
+        android:id="@+id/ibFightStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/ibGps"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_flightstatus" />
+
+    <ImageButton
+        android:id="@+id/ibGps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/ibSignal"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_gps" />
+
+    <ImageButton
+        android:id="@+id/ibSignal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/ibBattery"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_signal" />
+
+    <ImageButton
+        android:id="@+id/ibBattery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_battery" />
+
 
 </RelativeLayout>
