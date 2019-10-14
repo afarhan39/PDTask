@@ -19,8 +19,8 @@
         android:layout_margin="24dp"
         app:srcCompat="@drawable/ic_lens"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
 
     <ImageButton
         android:id="@+id/ibSwap"
@@ -29,13 +29,13 @@
         android:layout_margin="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:srcCompat="@drawable/ic_swap"
-        android:layout_toStartOf="@id/ibCapture"
+        android:rotation="90"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"/>
 
     <include
         layout="@layout/view_topbar"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"/>
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
 
 </RelativeLayout>
