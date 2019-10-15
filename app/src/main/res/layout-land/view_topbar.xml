@@ -7,13 +7,13 @@
     android:background="@color/colorAccent">
 
     <ImageButton
-        android:id="@+id/ibBack"
+        android:id="@+id/ibHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_centerVertical="true"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_back" />
+        app:srcCompat="@drawable/ic_home" />
 
     <TextView
         android:id="@+id/tvSystemStatus"
@@ -23,7 +23,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:text="In Flight"
-        android:layout_toEndOf="@id/ibBack"/>
+        android:layout_toEndOf="@id/ibHome"/>
 
     <ImageButton
         android:id="@+id/ibFightStatus"

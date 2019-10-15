@@ -37,15 +37,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     private lateinit var ivCameraView: ImageView
     private lateinit var ibMap: ImageButton
     private lateinit var ibCapture: ImageButton
-    private lateinit var ibJoystick: ImageButton
 
     //topbar
-    private lateinit var ibBack: ImageButton
+    private lateinit var ibHome: ImageButton
     private lateinit var ibFlightStatus: ImageButton
     private lateinit var ibGps: ImageButton
     private lateinit var ibSignal: ImageButton
     private lateinit var ibBattery: ImageButton
     private lateinit var ibSettings: ImageButton
+
+    //controller
+    private lateinit var ibJoystick: ImageButton
+    private lateinit var ibFLightLand: ImageButton
+    private lateinit var ibFlightTakeOff: ImageButton
 
     private lateinit var mMap: GoogleMap
     private lateinit var currentLatLng: LatLng
@@ -74,10 +78,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         ivCameraView = findViewById(R.id.ivCameraView)
         ibMap = findViewById(R.id.ibMap)
         ibCapture = findViewById(R.id.ibCapture)
+
+        //controller
         ibJoystick = findViewById(R.id.ibJoystick)
+        ibFLightLand = findViewById(R.id.ibFlightLand)
+        ibFlightTakeOff = findViewById(R.id.ibFlightTakeOff)
 
         //topBar
-        ibBack = findViewById(R.id.ibBack)
+        ibHome = findViewById(R.id.ibHome)
         ibFlightStatus = findViewById(R.id.ibFightStatus)
         ibGps = findViewById(R.id.ibGps)
         ibSignal = findViewById(R.id.ibSignal)
@@ -99,12 +107,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
                 mapView.visibility = View.VISIBLE
                 ivCameraView.visibility = View.GONE
                 ibCapture.visibility = View.GONE
-                ibJoystick.visibility = View.GONE
             } else {
                 mapView.visibility = View.GONE
                 ivCameraView.visibility = View.VISIBLE
                 ibCapture.visibility = View.VISIBLE
-                ibJoystick.visibility = View.VISIBLE
             }
 
             isCameraView = !isCameraView
@@ -113,8 +119,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         ibCapture.setOnClickListener {
             showSnackbar("Captured")
         }
-        ibBack.setOnClickListener {
-            showSnackbar("Back")
+        ibHome.setOnClickListener {
+            showSnackbar("Home")
         }
         ibFlightStatus.setOnClickListener {
             showSnackbar("Flight Status")
@@ -204,6 +210,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d("yikes", "onMapReady")
         mMap = googleMap
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.mapstyle_night))
         marker = mMap.addMarker(markerOptions)
     }
 
