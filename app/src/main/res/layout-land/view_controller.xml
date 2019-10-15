@@ -2,8 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/topNavBar"
-    android:layout_width="70dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/bStartStopMission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Mission"
+        android:textAllCaps="false"
+        android:layout_above="@id/ibFlightTakeOff"
+        android:layout_centerHorizontal="true"
+        />
+
 
 
     <ImageButton

@@ -16,10 +16,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -50,6 +47,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     private lateinit var ibJoystick: ImageButton
     private lateinit var ibFLightLand: ImageButton
     private lateinit var ibFlightTakeOff: ImageButton
+    private lateinit var bStartStopMission: Button
 
     private lateinit var mMap: GoogleMap
     private lateinit var currentLatLng: LatLng
@@ -58,6 +56,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     private lateinit var marker: Marker
 
     private var isCameraView = true
+    private var isStartMission = true
 
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -83,6 +82,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         ibJoystick = findViewById(R.id.ibJoystick)
         ibFLightLand = findViewById(R.id.ibFlightLand)
         ibFlightTakeOff = findViewById(R.id.ibFlightTakeOff)
+        bStartStopMission = findViewById(R.id.bStartStopMission)
 
         //topBar
         ibHome = findViewById(R.id.ibHome)
@@ -116,9 +116,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
             isCameraView = !isCameraView
         }
 
+        //main
         ibCapture.setOnClickListener {
             showSnackbar("Captured")
         }
+
+        //topbar
         ibHome.setOnClickListener {
             showSnackbar("Home")
         }
@@ -136,6 +139,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         }
         ibSettings.setOnClickListener {
             showSnackbar("General Settings")
+        }
+
+        //controller
+        ibFlightTakeOff.setOnClickListener {
+            showSnackbar("General Settings")
+        }
+        ibFLightLand.setOnClickListener {
+            showSnackbar("General Settings")
+        }
+        bStartStopMission.setOnClickListener {
+            if (isStartMission) {
+                showSnackbar("Mission started")
+                bStartStopMission.text = "Stop Mission"
+                isStartMission = false
+            } else {
+                showSnackbar("Mission ended")
+                bStartStopMission.text = "Start Mission"
+                isStartMission = true
+            }
         }
     }
 
