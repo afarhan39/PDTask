@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:text="Alt: 00.00 m  Dist: 00 m  V: 0.0 M/s"
+        android:text="Alt: 80.15 m  Dist: 100 m  V: 3.0 m/s"
         android:background="@android:color/black"
         android:padding="5dp"
         android:layout_centerHorizontal="true"/>

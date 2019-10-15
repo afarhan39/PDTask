@@ -5,8 +5,10 @@ package my.fallacy.poladronetask
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
@@ -25,9 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -37,10 +37,18 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     private lateinit var ivCameraView: ImageView
     private lateinit var ibMap: ImageButton
     private lateinit var ibCapture: ImageButton
+    private lateinit var ibJoystick: ImageButton
+
+    //topbar
     private lateinit var ibBack: ImageButton
+    private lateinit var ibFlightStatus: ImageButton
+    private lateinit var ibGps: ImageButton
+    private lateinit var ibSignal: ImageButton
+    private lateinit var ibBattery: ImageButton
+    private lateinit var ibSettings: ImageButton
 
     private lateinit var mMap: GoogleMap
-    private lateinit var currentLatLng : LatLng
+    private lateinit var currentLatLng: LatLng
     private lateinit var locationManager: LocationManager
     private lateinit var markerOptions: MarkerOptions
     private lateinit var marker: Marker
@@ -49,6 +57,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
 
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
+        private const val DEFAULT_ZOOM = 15f
 
         // This is an array of all the permission specified in the manifest
         private val REQUIRED_PERMISSIONS =
@@ -59,14 +68,21 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Add this at the end of onCreate function
-
+        // main
         layoutContainer = findViewById(R.id.layoutContainer)
         mapView = findViewById(R.id.mapView)
         ivCameraView = findViewById(R.id.ivCameraView)
         ibMap = findViewById(R.id.ibMap)
         ibCapture = findViewById(R.id.ibCapture)
+        ibJoystick = findViewById(R.id.ibJoystick)
+
+        //topBar
         ibBack = findViewById(R.id.ibBack)
+        ibFlightStatus = findViewById(R.id.ibFightStatus)
+        ibGps = findViewById(R.id.ibGps)
+        ibSignal = findViewById(R.id.ibSignal)
+        ibBattery = findViewById(R.id.ibBattery)
+        ibSettings = findViewById(R.id.ibSettings)
 
         // Request loc permissions
         if (allPermissionsGranted()) {
@@ -82,24 +98,38 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
             if (isCameraView) {
                 mapView.visibility = View.VISIBLE
                 ivCameraView.visibility = View.GONE
-            }
-            else {
+                ibCapture.visibility = View.GONE
+                ibJoystick.visibility = View.GONE
+            } else {
                 mapView.visibility = View.GONE
                 ivCameraView.visibility = View.VISIBLE
+                ibCapture.visibility = View.VISIBLE
+                ibJoystick.visibility = View.VISIBLE
             }
 
             isCameraView = !isCameraView
         }
 
         ibCapture.setOnClickListener {
-            Snackbar.make(
-                layoutContainer,
-                "Captured",
-                Snackbar.LENGTH_SHORT
-            ).show()
+            showSnackbar("Captured")
         }
         ibBack.setOnClickListener {
-            Snackbar.make(layoutContainer, "Back", Snackbar.LENGTH_SHORT).show()
+            showSnackbar("Back")
+        }
+        ibFlightStatus.setOnClickListener {
+            showSnackbar("Flight Status")
+        }
+        ibGps.setOnClickListener {
+            showSnackbar("GPS Status")
+        }
+        ibSignal.setOnClickListener {
+            showSnackbar("Wifi Signal")
+        }
+        ibBattery.setOnClickListener {
+            showSnackbar("Battery Level")
+        }
+        ibSettings.setOnClickListener {
+            showSnackbar("General Settings")
         }
     }
 
@@ -139,10 +169,27 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         mapFragment.getMapAsync(this)
 
         markerOptions = MarkerOptions()
-        markerOptions.position(LatLng(0.0, 0.0)).title("Drone")
+        markerOptions.position(LatLng(3.1466, 101.6958))
+            .title("Drone")
+            .icon(bitmapDescriptorFromVector(this))
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         requestLocation()
+    }
+
+    private fun bitmapDescriptorFromVector(
+        context: Context
+    ): BitmapDescriptor {
+        val background = ContextCompat.getDrawable(context, R.drawable.ic_nav) as Drawable
+        background.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
+        val bitmap = Bitmap.createBitmap(
+            background.intrinsicWidth,
+            background.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        ) as Bitmap
+        val canvas = Canvas(bitmap)
+        background.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     /**
@@ -165,7 +212,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
             Log.d("yikes", "lat: " + p0.latitude + " long: " + p0.longitude)
             currentLatLng = LatLng(p0.latitude, p0.longitude)
             marker.position = currentLatLng
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM))
         }
     }
 
@@ -186,5 +233,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         val provider = locationManager.getBestProvider(criteria, true)
         locationManager.requestLocationUpdates(provider, 1000, 10f, this)
 
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(layoutContainer, message, Snackbar.LENGTH_SHORT).show()
     }
 }
