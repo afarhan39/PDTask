@@ -143,10 +143,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
 
         //controller
         ibFlightTakeOff.setOnClickListener {
-            showSnackbar("General Settings")
+            showSnackbar("Flight Take Off")
         }
         ibFLightLand.setOnClickListener {
-            showSnackbar("General Settings")
+            showSnackbar("Flight Landing")
         }
         bStartStopMission.setOnClickListener {
             if (isStartMission) {
